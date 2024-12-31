@@ -141,7 +141,7 @@ $(document).ready(function() {
     function scrapeAmazonOrders() {
         const orders = [];
     
-        // Sélection de toutes les commandes
+        // Sélecteur principal pour chaque commande
         const orderElements = document.querySelectorAll('.order-card.js-order-card');
     
         if (orderElements.length === 0) {
@@ -152,46 +152,25 @@ $(document).ready(function() {
         orderElements.forEach((order, index) => {
             console.log(`Commande #${index + 1}`, order); // Log de l'élément de commande
     
-            // Initialisation des variables
-            let imageUrl = 'Image non disponible';
-            let productTitle = 'Intitulé non disponible';
-            let date = 'Date non disponible';
-            let amount = 'Montant non disponible';
-            let status = 'Statut non disponible';
-            let trackingUrl = 'URL de suivi non disponible';
+            // Récupération de l'image du produit
+            const imageElement = order.querySelector('.product-image img');
+            const imageUrl = imageElement ? imageElement.src : 'Image non disponible';
     
-            // Vérification de la présence d'éléments spécifiques à une commande en cours ou finalisée
-            const isOngoingOrder = order.querySelector('.yo-critical-feature') !== null;
+            // Récupération de l'intitulé du produit
+            const titleElement = order.querySelector('.yohtmlc-product-title');
+            const productTitle = titleElement ? titleElement.textContent.trim() : 'Intitulé non disponible';
     
-            if (isOngoingOrder) {
-                // Commande en cours
-                const imageElement = order.querySelector('.yo-critical-feature');
-                const titleElement = imageElement;
-                const amountElement = order.querySelector('.yohtmlc-order-total .value');
-                const dateElement = order.querySelector('.a-column.a-span4 .value');
-                const trackingElement = order.querySelector('.a-button-inner a');
+            // Récupération de la date
+            const dateElement = order.querySelectorAll('.a-size-base.a-color-secondary.aok-break-word')[0];
+            const date = dateElement ? dateElement.textContent.trim() : 'Date non disponible';
     
-                imageUrl = imageElement ? imageElement.getAttribute('data-a-hires') : imageUrl;
-                productTitle = titleElement ? titleElement.getAttribute('title') : productTitle;
-                amount = amountElement ? amountElement.textContent.trim() : amount;
-                date = dateElement ? dateElement.textContent.trim() : date;
-                trackingUrl = trackingElement ? trackingElement.href : trackingUrl;
+            // Récupération du montant total
+            const amountElement = order.querySelectorAll('.a-size-base.a-color-secondary.aok-break-word')[1];
+            const amount = amountElement ? amountElement.textContent.trim() : 'Montant non disponible';
     
-                status = 'Commande en cours';
-            } else {
-                // Commande finalisée
-                const imageElement = order.querySelector('.product-image img');
-                const titleElement = order.querySelector('.yohtmlc-product-title');
-                const amountElement = order.querySelectorAll('.a-size-base.a-color-secondary.aok-break-word')[1];
-                const dateElement = order.querySelectorAll('.a-size-base.a-color-secondary.aok-break-word')[0];
-                const statusElement = order.querySelector('.a-color-secondary.a-text-bold');
-    
-                imageUrl = imageElement ? imageElement.src : imageUrl;
-                productTitle = titleElement ? titleElement.textContent.trim() : productTitle;
-                amount = amountElement ? amountElement.textContent.trim() : amount;
-                date = dateElement ? dateElement.textContent.trim() : date;
-                status = statusElement ? statusElement.textContent.trim() : 'Statut non disponible';
-            }
+            // Récupération du statut (si disponible)
+            const statusElement = order.querySelector('.a-color-secondary.a-text-bold');
+            const status = statusElement ? statusElement.textContent.trim() : 'Statut non disponible';
     
             // Log des détails pour le débogage
             console.log(`Commande #${index + 1} - Image: ${imageUrl}`);
@@ -199,16 +178,14 @@ $(document).ready(function() {
             console.log(`Commande #${index + 1} - Montant: ${amount}`);
             console.log(`Commande #${index + 1} - Date: ${date}`);
             console.log(`Commande #${index + 1} - Statut: ${status}`);
-            console.log(`Commande #${index + 1} - Tracking URL: ${trackingUrl}`);
     
             // Ajout des informations extraites à l'objet `orders`
-            orders.push({
-                date,
-                amount,
-                status,
-                productTitle,
-                imageUrl,
-                trackingUrl,
+            orders.push({ 
+                date, 
+                amount, 
+                status, 
+                productTitle, 
+                imageUrl 
             });
         });
     
