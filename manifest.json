@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Amazon Orders Extension",
+  "version": "1.0",
+  "description": "Extension pour récupérer les commandes Amazon.",
+  "host_permissions": [
+	"https://*.amazon.fr/*",
+    "https://www.amazon.fr/gp/css/order-history*",
+    "https://www.amazon.fr/your-orders/orders*"
+  ],  
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabs",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.amazon.fr/gp/css/order-history*", "https://www.amazon.fr/your-orders/orders*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+          "16": "amazon_16.png",
+          "48": "amazon_48.png",
+          "128": "amazon_128.png"
+      }
+  }
+}

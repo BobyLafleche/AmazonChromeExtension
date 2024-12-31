@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Commande Reader</title>
+</head>
+<body>
+    <h1>Mes Commandes</h1>
+    <div id="command-list"></div>
+    <div>
+        <label for="startDate">Date de début :</label>
+        <input type="date" id="startDate" name="startDate">
+    </div>
+    <div>
+        <label for="endDate">Date de fin :</label>
+        <input type="date" id="endDate" name="endDate">
+    </div>
+    <button id="fetchOrders">Rechercher</button>
+    <button id="group-by-date">Regrouper par Date</button>
+    <script src="jquery-3.7.1.min.js"></script> 
+    <script src="popup.js"></script>
+    <script src="AmazonOrders.js"></script>
+</body>
+</html>
