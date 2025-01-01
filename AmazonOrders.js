@@ -72,6 +72,7 @@ $(document).ready(function() {
             console.log('Current URL: ' + url); // Affichez l'URL
 
             if (!url || (!url.includes("https://www.amazon.fr/gp/css/order-history") &&
+                        !url.includes("https://www.amazon.fr/gp/your-account/order-history") &&
                          !url.includes("https://www.amazon.fr/your-orders/orders"))) {
                 alert('Vous n\'êtes pas sur la page d\'historique des commandes d\'Amazon.'); // Affichez un pop-up
                 return;
